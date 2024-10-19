@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="bg-slate-100" >
+<main class="bg-slate-500" >
+<h1 class="text-4xl text-center text-sky-100"> Weather dashboard </h1>
+
+<!--  -->
+<article class="bg-red-200 flex w-1/1">
+    <div class="bg-yellow-300 flex-col wid w-1/4">
+<input id="search_location" class="bg-slate-100 border-4 border-sky-500 text-black-500" type="text" placeholder="Enter the city name">
+<button id="search_button" class="block-border-sky-500" type="button">Search</button>
+<hr>
+<p>Or</p>
+<button id="Current_location_button" type="button">Current Location</button>
+    </div>
+
+
+
+    <div class="bg-green-500 flex-col w-3/4 ">
+<div class="flex bg-blue-300 justify-between ">
+    <div>
+       <Div class="flex bg-pink-500 "> 
+        <P id="current_location">Location</P>
+        <p id="current_date"></p>
+       </Div>
+        <p id="current_Temp"> temperature</p>
+        <p id="wind_speed"> wind speed</p>
+        <p id="current_Humidity"> Humidity</p>
+    </div>
+    
+    <div>
+        <img id="weather_icon"> </img>
+        <P id="weather_condition" ></P>
+    </div>
+
+</div>
+<div class="flex justify-between">
+    <div id="day1" >
+        <p id="day1_p1">1</p>
+        <img id="day1_p2"> </img>
+        <p id="day1_p3">3</p>
+        <p id="day1_p4">4</p>
+        <p id="day1_p5">5</p>
+    </div>
+    <div id="day2" >
+        <p id="day2_p1">1</p>
+        <img id="day2_p2"> </img>
+        <p id="day2_p3">3</p>
+        <p id="day2_p4">4</p>
+        <p id="day2_p5">5</p>
+    </div>
+    <div id="day3">
+        <p id="day3_p1">1</p>
+        <img id="day3_p2"> </img>
+        <p id="day3_p3">3</p>
+        <p id="day3_p4">4</p>
+        <p id="day3_p5">5</p>
+    </div>
+    <div id="day4">
+        <p id="day4_p1">1</p>
+        <img id="day4_p2"> </img>
+        <p id="day4_p3">3</p>
+        <p id="day4_p4">4</p>
+        <p id="day4_p5">5</p>
+    </div>
+    <div id="day5">
+        <p id="day5_p1">1</p>
+        <img id="day5_p2"> </img>
+        <p id="day5_p3">3</p>
+        <p id="day5_p4">4</p>
+        <p id="day5_p5">5</p>
+    </div>
+</div>
+
+    </div>
+</article>
+
+</main>
+    
+</body>
+<script>
+    // Creating the variables......
+    let current_date;
+    let current_wind;
+    let current_Temp_Main;
+    let current_Humidity;
+    let current_location;
+    let current_latitude;
+    let current_longitude;
+    let searched_location ;
+    let iconId;
+    let weather_status;
+    let data_day1_p1;
+    let data_day1_p2;
+    let data_day1_p3;
+    let data_day1_p4;
+    let data_day1_p5;
+    let data_day2_p1;
+    let data_day2_p2;
+    let data_day2_p3;
+    let data_day2_p4;
+    let data_day2_p5;
+    let data_day3_p1;
+    let data_day3_p2;
+    let data_day3_p3;
+    let data_day3_p4;
+    let data_day3_p5;
+    let data_day4_p1;
+    let data_day4_p2;
+    let data_day4_p3;
+    let data_day4_p4;
+    let data_day4_p5;
+    let data_day5_p1;
+    let data_day5_p2;
+    let data_day5_p3;
+    let data_day5_p4;
+    let data_day5_p5;
+    
+
+    // Getting elements.........
+    const currentTemp=document.querySelector("#current_Temp");
+    const windSpeed = document.querySelector("#wind_speed");
+    const humidity = document.querySelector("#current_Humidity");
+    const location_name = document.querySelector("#current_location");
+    const today_date = document.querySelector("#current_date");
+    const search_location = document.querySelector("#search_location");
+    const Current_location_button =document.querySelector("#Current_location_button");
+    const weather_icon = document.querySelector("#weather_icon");
+    const weather_condition = document.querySelector("#weather_condition");
+    const search_button = document.querySelector("#search_button");
+
+    const day1_p1 = document.querySelector("#day1_p1");
+    const day1_p2 = document.querySelector("#day1_p2");
+    const day1_p3 = document.querySelector("#day1_p3");
+    const day1_p4 = document.querySelector("#day1_p4");
+    const day1_p5 = document.querySelector("#day1_p5");
+    const day2_p1 = document.querySelector("#day2_p1");
+    const day2_p2 = document.querySelector("#day2_p2");
+    const day2_p3 = document.querySelector("#day2_p3");
+    const day2_p4 = document.querySelector("#day2_p4");
+    const day2_p5 = document.querySelector("#day2_p5");
+    const day3_p1 = document.querySelector("#day3_p1");
+    const day3_p2 = document.querySelector("#day3_p2");
+    const day3_p3 = document.querySelector("#day3_p3");
+    const day3_p4 = document.querySelector("#day3_p4");
+    const day3_p5 = document.querySelector("#day3_p5");
+    const day4_p1 = document.querySelector("#day4_p1");
+    const day4_p2 = document.querySelector("#day4_p2");
+    const day4_p3 = document.querySelector("#day4_p3");
+    const day4_p4 = document.querySelector("#day4_p4");
+    const day4_p5 = document.querySelector("#day4_p5");
+    const day5_p1 = document.querySelector("#day5_p1");
+    const day5_p2 = document.querySelector("#day5_p2");
+    const day5_p3 = document.querySelector("#day5_p3");
+    const day5_p4 = document.querySelector("#day5_p4");
+    const day5_p5 = document.querySelector("#day5_p5");
+    
+    // Getting current date.
+    const date = new Date();
+    current_date = "("+ date.getDate() + "-" +(date.getMonth()+1) + "-" + date.getFullYear() +")";
+    
+
+    // getting current location......
+    const success= (position)=>{
+        
+        current_latitude = position.coords.latitude;
+        current_longitude = position.coords.longitude;
+        Fetchdata();
+        dataOfFiveDays();
+
+      }
+      const error = (error)=>{
+        console.log(error);
+      }
+     navigator.geolocation.getCurrentPosition(success, error);
+
+
+    // fetching api.......................
+   async function Fetchdata() {
+    try{
+
+        let weatherApi = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${current_latitude}&lon=${current_longitude}&appid=2da660dd6d837e9cf0035da4553c4940&units=metric`);
+        
+    let response = await weatherApi.json();
+    current_location=response.name
+    current_wind=response.wind.speed;
+    current_Temp_Main = response.main.temp_min;
+    current_Humidity=response.main.humidity;
+    iconId=response.weather[0].icon;
+    weather_status= response.weather[0].description;
+    fillData();
+    }
+    catch(error){
+        console.log(error);
+    }
+
+   }
+
+//    function to fill the data in the elements.....
+   function fillData(){
+    currentTemp.innerHTML= "Temprature: "+ current_Temp_Main + "\u00B0C";
+    windSpeed.innerHTML= "Wind: " + current_wind +" M/S";
+    humidity.innerHTML= "Humidity: " + current_Humidity + " %"
+    location_name.innerHTML= current_location 
+    today_date.innerHTML=current_date;
+    weather_icon.src= `http://openweathermap.org/img/w/${iconId}.png`;
+    weather_condition.innerHTML = weather_status;
+   }
+
+
+//    adding event listner to search botton.....
+search_button.addEventListener("click" ,fetchdataByLocation);
+
+//    Fetching Api
+   async function fetchdataByLocation() {
+        if(search_location.value == "" ){
+            // Fetchdata();
+            // dataOfFiveDays();
+            alert("City name cant't be empty")
+
+        }
+
+        else{
+        searched_location = search_location.value;
+
+        let weatherApiByLocation = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${searched_location}&appid=2da660dd6d837e9cf0035da4553c4940&units=metric`);
+        
+        try{
+            let response = await weatherApiByLocation.json();
+
+    current_location=response.name
+    current_wind=response.wind.speed;
+    current_Temp_Main = response.main.temp_min ;
+    current_Humidity=response.main.humidity;
+    iconId=response.weather[0].icon;
+    weather_status= response.weather[0].description;
+    fillData();
+    getWeatherByCityOfFiveDays();
+
+        
+        }
+    catch(error){
+        alert("City not found. Please Enter the correct City name")
+    }
+}
+}
+    
+
+   
+//  Adding event listner to current location button....
+   Current_location_button.addEventListener("click", fetchCurrentLocation );
+
+   function fetchCurrentLocation(){
+    Fetchdata();
+    dataOfFiveDays();
+   }
+
+//    fetching Api for the next 5 days weather.......
+
+   async function dataOfFiveDays() {
+    
+    const fiveDaysData = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${current_latitude}&lon=${current_longitude}&appid=2da660dd6d837e9cf0035da4553c4940&units=metric`);
+
+    try{
+        let response = await fiveDaysData.json();
+    
+        data_day1_p1 = response.list[7].dt_txt;
+    data_day1_p2= response.list[7].weather[0].icon;
+    data_day1_p3 = response.list[7].main.temp;
+    data_day1_p4 = response.list[7].wind.speed;
+    data_day1_p5 = response.list[7].main.humidity;
+
+    data_day2_p1 = response.list[15].dt_txt;
+    data_day2_p2= response.list[15].weather[0].icon;
+    data_day2_p3 = response.list[15].main.temp;
+    data_day2_p4 = response.list[15].wind.speed;
+    data_day2_p5 = response.list[15].main.humidity;
+
+    data_day3_p1 = response.list[23].dt_txt;
+    data_day3_p2= response.list[23].weather[0].icon;
+    data_day3_p3 = response.list[23].main.temp;
+    data_day3_p4 = response.list[23].wind.speed;
+    data_day3_p5 = response.list[23].main.humidity;
+
+    data_day4_p1 = response.list[31].dt_txt;
+    data_day4_p2= response.list[31].weather[0].icon;
+    data_day4_p3 = response.list[31].main.temp;
+    data_day4_p4 = response.list[31].wind.speed;
+    data_day4_p5 = response.list[31].main.humidity;
+
+    data_day5_p1 = response.list[39].dt_txt;
+    data_day5_p2= response.list[39].weather[0].icon;
+    data_day5_p3 = response.list[39].main.temp;
+    data_day5_p4 = response.list[39].wind.speed;
+    data_day5_p5 = response.list[39].main.humidity;
+    
+    fetch_fivedays_data();
+    }
+    catch (error) {
+        console.error('Error fetching weather data:', error);}
+    }
+
+    
+    
+
+
+
+
+   function fetch_fivedays_data(){
+    
+    day1_p1.innerHTML = data_day1_p1;
+    day1_p2.src       = `http://openweathermap.org/img/w/${data_day1_p2}.png`;
+    day1_p3.innerHTML =  "Temp: " + data_day1_p3 +"\u00B0C";
+    day1_p4.innerHTML = "Wind: " + data_day1_p4 + "M/S";
+    day1_p5.innerHTML = "Humidity: " + data_day1_p5 + "%";
+
+    day2_p1.innerHTML = data_day2_p1;
+    day2_p2.src       = `http://openweathermap.org/img/w/${data_day2_p2}.png`;
+    day2_p3.innerHTML =  "Temp: " + data_day2_p3 +"\u00B0C";
+    day2_p4.innerHTML = "Wind: " + data_day2_p4 + "M/S";
+    day2_p5.innerHTML = "Humidity: " + data_day2_p5 + "%";
+
+    day3_p1.innerHTML = data_day3_p1;
+    day3_p2.src       = `http://openweathermap.org/img/w/${data_day3_p2}.png`;
+    
+    day3_p3.innerHTML =  "Temp: " + data_day3_p3 +"\u00B0C";
+    day3_p4.innerHTML = "Wind: " + data_day3_p4 + "M/S";
+    day3_p5.innerHTML = "Humidity: " + data_day3_p5 + "%";
+
+    day4_p1.innerHTML = data_day4_p1;
+    day4_p2.src       = `http://openweathermap.org/img/w/${data_day4_p2}.png`;
+    day4_p3.innerHTML =  "Temp: " + data_day4_p3 +"\u00B0C";
+    day4_p4.innerHTML = "Wind: " + data_day4_p4 + "M/S";
+    day4_p5.innerHTML = "Humidity: " + data_day4_p5 + "%";
+
+    day5_p1.innerHTML = data_day5_p1;
+    day5_p2.src       = `http://openweathermap.org/img/w/${data_day5_p2}.png`;
+    day5_p3.innerHTML =  "Temp: " + data_day5_p3 +"\u00B0C";
+    day5_p4.innerHTML = "Wind: " + data_day5_p4 + "M/S";
+    day5_p5.innerHTML = "Humidity: " + data_day5_p5 + "%";
+   }
+
+
+   
+   async function getWeatherByCityOfFiveDays() {
+
+    const fiveDaysApiByCityName = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${searched_location}&appid=2da660dd6d837e9cf0035da4553c4940&units=metric`);
+
+    const response = await fiveDaysApiByCityName.json();
+
+    try {
+        
+        if (!fiveDaysApiByCityName.ok) {
+            console.log(response);
+        }
+        else{
+
+        data_day1_p1 = response.list[7].dt_txt;
+    data_day1_p2= response.list[7].weather[0].icon;
+    data_day1_p3 = response.list[7].main.temp;
+    data_day1_p4 = response.list[7].wind.speed;
+    data_day1_p5 = response.list[7].main.humidity;
+
+    data_day2_p1 = response.list[15].dt_txt;
+    data_day2_p2= response.list[15].weather[0].icon;
+    data_day2_p3 = response.list[15].main.temp;
+    data_day2_p4 = response.list[15].wind.speed;
+    data_day2_p5 = response.list[15].main.humidity;
+
+    data_day3_p1 = response.list[23].dt_txt;
+    data_day3_p2= response.list[23].weather[0].icon;
+    data_day3_p3 = response.list[23].main.temp;
+    data_day3_p4 = response.list[23].wind.speed;
+    data_day3_p5 = response.list[23].main.humidity;
+
+    data_day4_p1 = response.list[31].dt_txt;
+    data_day4_p2= response.list[31].weather[0].icon;
+    data_day4_p3 = response.list[31].main.temp;
+    data_day4_p4 = response.list[31].wind.speed;
+    data_day4_p5 = response.list[31].main.humidity;
+
+    data_day5_p1 = response.list[39].dt_txt;
+    data_day5_p2= response.list[39].weather[0].icon;
+    data_day5_p3 = response.list[39].main.temp;
+    data_day5_p4 = response.list[39].wind.speed;
+    data_day5_p5 = response.list[39].main.humidity;
+
+    fetch_fivedays_data();
+    }
+}
+
+        
+     catch (error) {
+        console.log(error);}
+     }
+   
+
+
+</script>
+</html>
